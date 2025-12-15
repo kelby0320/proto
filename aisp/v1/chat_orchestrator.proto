@@ -33,14 +33,20 @@ message ChatTurnRequest {
 message AssistantConfig {
   string assistant_id = 1;
 
-  // Logical model profile identifier that AISP knows how to resolve.
-  string model_profile_id = 2;
-
  // Logical model profile identifier that AISP knows how to resolve.
-  string graph_profile_id = 3;
+  string graph_profile_id = 2;
+
+  // Model bindings for different slots.
+  repeated ModelBinding model_bindings = 3;
 
   // System / persona prompt for this assistant.
   string system_prompt = 4;
+}
+
+// Model binding configuration for a specific slot.
+message ModelBinding {
+  string slot_name = 1;
+  string model_profile_id = 2;
 }
 
 // Recent history & optional summary as sent by PCP.
