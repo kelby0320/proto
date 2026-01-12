@@ -1,0 +1,72 @@
+asyncapi: '3.0.0'
+info:
+  title: Platform Control Plane
+  version: '1.0.0'
+  description: Platform Control Plane API
+channels:
+  chatTurn:
+    address: '/api/v1/sessions/{session_id}/turns'
+    parameters:
+      session_id:
+        description: Session ID
+        schema:
+          type: string
+    messages:
+      chatTurnRequest:
+        $ref: '#/components/messages/ChatTurnRequest'
+      chatTurnEvent:
+        $ref: '#/components/messages/ChatTurnEvent'
+
+operations:
+  sendChatTurn:
+    action: send
+    channel:
+      $ref: '#/channels/chatTurn'
+    messages:
+      - $ref: '#/components/messages/ChatTurnRequest'
+    reply:
+      channel:
+        $ref: '#/channels/chatTurn'
+      messages:
+        - $ref: '#/components/messages/ChatTurnEvent'
+
+components:
+  messages:
+    ChatTurnRequest:
+      payload:
+        $ref: '#/components/schemas/ChatTurnRequest'
+    ChatTurnEvent:
+      payload:
+        oneOf:
+          - $ref: '#/components/schemas/ChatTurnEventTokenChunk'
+          - $ref: '#/components/schemas/ChatTurnEventDone'
+          - $ref: '#/components/schemas/ChatTurnEventError'
+
+  schemas:
+    ChatTurnRequest:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    ChatTurnEventTokenChunk:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+    ChatTurnEventDone:
+      type: object
+      description: No Content
+    ChatTurnEventError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
