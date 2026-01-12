@@ -96,8 +96,6 @@ message ChatEvent {
 // Streaming token deltas for the assistant reply.
 message TokenChunkEvent {
   string content = 1;   // raw text chunk
-  bool   is_first = 2;  // optional, can help with UI
-  bool   is_last  = 3;  // optional, usually implied by DoneEvent
 }
 
 // AISP -> PCP: “here’s how to update your stored context snapshot”.
