@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: AI Services Plane API
+  version: 1.0.0
+paths:
+  /api/v1/healthz:
+    get:
+      summary: Health Check
+      responses:
+        '200':
+          description: Ok
+  /api/v1/graph_profile/{graph_profile_id}:
+    get:
+      summary: Get Graph Profile
+      parameters:
+        - name: graph_profile_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphProfileResponse'
+  /api/v1/model_profile/{model_profile_id}:
+    get:
+      summary: Get Model Profile
+      parameters:
+        - name: model_profile_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelProfileResponse'
+components:
+  schemas:
+    GraphProfileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        version_major:
+          type: integer
+        version_minor:
+          type: integer
+        graph_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_active:
+          type: boolean
+    ModelProfileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        model:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_active:
+          type: boolean
+        temperature:
+          type: number
+          nullable: true
+        top_p:
+          type: number
+          nullable: true
+        max_tokens:
+          type: integer
+          nullable: true
